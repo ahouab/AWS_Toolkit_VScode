@@ -12,6 +12,7 @@ import { FeatureDevClient } from '../../amazonqFeatureDev/client/featureDev'
 import { verifyTextOrder } from './framework/text'
 import { examples } from '../../amazonqFeatureDev/text'
 import { getLogger } from '../../shared/logger'
+import * as authUtil from '../../codewhisperer/util/authUtil'
 
 describe('Test Amazon Q Feature Dev', function () {
     let framework: qTestingFramework
@@ -23,6 +24,11 @@ describe('Test Amazon Q Feature Dev', function () {
          * TODO remove these stubs when we know the backend can handle all the test load + when we know the tests
          * are working without any flakiness
          */
+        sinon.stub(authUtil, 'getChatAuthState').resolves({
+            amazonQ: 'connected',
+            codewhispererChat: 'connected',
+            codewhispererCore: 'connected',
+        })
         sinon.stub(FeatureDevClient.prototype, 'createConversation').resolves('1234')
         sinon.stub(FeatureDevClient.prototype, 'createUploadUrl').resolves({
             uploadId: '5678',

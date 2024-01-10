@@ -81,8 +81,8 @@ export class qTestingFramework {
                     data: JSON.stringify(message),
                 } as any
                 getLogger().info('Trying to post message from VSCode -> Mynah UI')
-                getLogger().info('%O', event)
-                getLogger().info('%O', message)
+                getLogger().info('event: %O', event)
+                getLogger().info('message: %O', message)
                 await ui.messageReceiver(event)
             })
         )
