@@ -200,7 +200,9 @@ export class FeatureDevController {
      * Handle a regular incoming message when a user is in the approach phase
      */
     private async onApproachGeneration(session: Session, message: string, tabID: string) {
+        getLogger().info('approach generation')
         await session.preloader(message)
+        getLogger().info('finished preloader')
 
         this.messenger.sendAnswer({
             type: 'answer',
@@ -208,11 +210,18 @@ export class FeatureDevController {
             message: 'Ok, let me create a plan. This may take a few minutes.',
         })
 
+        getLogger().info('send first message')
+
         // Ensure that the loading icon stays showing
         this.messenger.sendAsyncEventProgress(tabID, true, undefined)
 
+        getLogger().info('sent async event progress')
+
         this.messenger.sendUpdatePlaceholder(tabID, 'Generating implementation plan ...')
+
+        getLogger().info('sent placeholder update')
         const interactions = await session.send(message)
+        getLogger().info('received message')
         this.messenger.sendUpdatePlaceholder(tabID, 'Add more detail to iterate on the implementation plan')
 
         // Resolve the "..." with the content

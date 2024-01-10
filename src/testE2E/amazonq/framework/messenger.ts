@@ -16,8 +16,8 @@ export interface MessengerOptions {
  * Abstraction over tabIds to make it easier to send messages to specific tabs
  */
 export class Messenger {
-    private defaultWaitIntervalInMs = 2000
-    private defaultWaitTimeoutInMs = 100000
+    private defaultWaitIntervalInMs = 5000
+    private defaultWaitTimeoutInMs = 600000
 
     private waitIntervalInMs: number
     private waitTimeoutInMs: number

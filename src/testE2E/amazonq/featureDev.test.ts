@@ -11,6 +11,7 @@ import sinon from 'sinon'
 import { FeatureDevClient } from '../../amazonqFeatureDev/client/featureDev'
 import { verifyTextOrder } from './framework/text'
 import { examples } from '../../amazonqFeatureDev/text'
+import { getLogger } from '../../shared/logger'
 
 describe('Test Amazon Q Feature Dev', function () {
     let framework: qTestingFramework
@@ -67,6 +68,9 @@ describe('Test Amazon Q Feature Dev', function () {
             const prompt = 'Implement twosum in typescript'
             q.addChatMessage({ command: '/dev', prompt })
 
+            getLogger().info('Waiting for backend response')
+            getLogger().info('%O', q.getChatItems())
+
             // Wait for a backend response
             await q.waitForChatFinishesLoading()
 
@@ -103,6 +107,9 @@ describe('Test Amazon Q Feature Dev', function () {
             const prompt = 'Implement twosum in typescript'
             q.addChatMessage({ command: '/dev' })
             q.addChatMessage({ prompt })
+
+            getLogger().info('Waiting for backend response')
+            getLogger().info('%O', q.getChatItems())
 
             // Wait for a backend response
             await q.waitForChatFinishesLoading()
