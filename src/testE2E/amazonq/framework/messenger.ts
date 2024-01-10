@@ -6,6 +6,7 @@
 import assert from 'assert'
 import { MynahUI, MynahUIProps, MynahUIDataModel } from '@aws/mynah-ui'
 import { waitUntil } from '../../../shared/utilities/timeoutUtils'
+import { getLogger } from '../../../shared/logger'
 
 export interface MessengerOptions {
     waitIntervalInMs?: number
@@ -78,6 +79,8 @@ export class Messenger {
             return this.getStore().loadingChat === false
         }
 
+        getLogger().info('Waiting for the store to finish loading')
+
         /**
          * Wait until the chat has finished loading. This happens when a backend request
          * has finished and responded in the chat
@@ -92,6 +95,9 @@ export class Messenger {
                 truthy: true,
             }
         )
+
+        getLogger().info('Chat has finished loading')
+        getLogger().info('%O', this.getStore().chatItems)
 
         // Do another check just in case the waitUntil time'd out
         if (!isFinishedLoading()) {

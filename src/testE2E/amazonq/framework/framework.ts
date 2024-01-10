@@ -30,6 +30,7 @@ import { MynahUI, MynahUIProps } from '@aws/mynah-ui'
 import { DefaultAmazonQAppInitContext } from '../../../amazonq/apps/initContext'
 import { TabType } from '../../../amazonq/webview/ui/storages/tabsStorage'
 import { Messenger, MessengerOptions } from './messenger'
+import { getLogger } from '../../../shared/logger'
 
 /**
  * Abstraction over Amazon Q to make e2e testing easier
@@ -52,6 +53,8 @@ export class qTestingFramework {
                     const appMessagePublisher = DefaultAmazonQAppInitContext.instance
                         .getWebViewToAppsMessagePublishers()
                         .get(featureName)
+                    getLogger().info('Trying to post message from MynahUI -> VSCode')
+                    getLogger().info('%O', appMessagePublisher)
                     if (appMessagePublisher === undefined) {
                         return
                     }
@@ -76,6 +79,7 @@ export class qTestingFramework {
                 const event = {
                     data: JSON.stringify(message),
                 } as any
+                getLogger().info('Trying to post message from VSCode -> Mynah UI')
                 void ui.messageReceiver(event)
             })
         )

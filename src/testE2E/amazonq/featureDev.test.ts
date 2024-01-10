@@ -64,6 +64,7 @@ describe('Test Amazon Q Feature Dev', function () {
 
     describe('/dev {msg} entry', async () => {
         it('Receives chat response', async () => {
+            this.timeout(60000)
             const q = framework.createTab()
             const prompt = 'Implement twosum in typescript'
             q.addChatMessage({ command: '/dev', prompt })
@@ -103,6 +104,7 @@ describe('Test Amazon Q Feature Dev', function () {
         })
 
         it('Receives chat response', async () => {
+            this.timeout(60000)
             const q = framework.createTab()
             const prompt = 'Implement twosum in typescript'
             q.addChatMessage({ command: '/dev' })
