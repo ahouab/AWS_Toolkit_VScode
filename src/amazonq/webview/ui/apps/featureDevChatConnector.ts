@@ -8,6 +8,7 @@ import { ExtensionMessage } from '../commands'
 import { TabType, TabsStorage } from '../storages/tabsStorage'
 import { CodeReference } from './amazonqCommonsConnector'
 import { FollowUpGenerator } from '../followUps/generator'
+import { getLogger } from '../../../../shared/logger'
 
 interface ChatPayload {
     chatMessage: string
@@ -158,6 +159,7 @@ export class Connector {
     }
 
     handleMessageReceive = async (messageData: any): Promise<void> => {
+        getLogger().info('Handling message: %O', messageData)
         if (messageData.type === 'errorMessage') {
             this.onError(messageData.tabID, messageData.message, messageData.title)
             return

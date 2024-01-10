@@ -58,6 +58,7 @@ export class qTestingFramework {
                     if (appMessagePublisher === undefined) {
                         return
                     }
+                    getLogger().info('%O', message)
                     // this is a sample event to see if things were called
                     appMessagePublisher.publish(message)
                 },
@@ -74,13 +75,15 @@ export class qTestingFramework {
          * This implements the VSCode -> Mynah UI flow
          */
         this.disposables.push(
-            DefaultAmazonQAppInitContext.instance.getAppsToWebViewMessageListener().onMessage(message => {
+            DefaultAmazonQAppInitContext.instance.getAppsToWebViewMessageListener().onMessage(async message => {
                 // Emulate the json format of postMessage
                 const event = {
                     data: JSON.stringify(message),
                 } as any
                 getLogger().info('Trying to post message from VSCode -> Mynah UI')
-                void ui.messageReceiver(event)
+                getLogger().info('%O', event)
+                getLogger().info('%O', message)
+                await ui.messageReceiver(event)
             })
         )
     }

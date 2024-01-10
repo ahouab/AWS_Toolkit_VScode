@@ -11,6 +11,7 @@ import { ExtensionMessage } from './commands'
 import { TabType, TabsStorage } from './storages/tabsStorage'
 import { WelcomeFollowupType } from './apps/amazonqCommonsConnector'
 import { AuthFollowUpType } from './followUps/generator'
+import { getLogger } from '../../../shared/logger'
 
 export interface CodeReference {
     licenseName?: string
@@ -134,17 +135,22 @@ export class Connector {
     }
 
     handleMessageReceive = async (message: MessageEvent): Promise<void> => {
+        getLogger().info('Received message: %O', message.data)
         if (message.data === undefined) {
             return
         }
 
+        getLogger().info('Parsing message')
         // TODO: potential json parsing error exists. Need to determine the failing case.
         const messageData = JSON.parse(message.data)
+
+        getLogger().info('Message parsed: %O', messageData)
 
         if (messageData === undefined) {
             return
         }
 
+        getLogger().info('Handling message with sender: %O', messageData.sender)
         if (messageData.sender === 'CWChat') {
             await this.cwChatConnector.handleMessageReceive(messageData)
         } else if (messageData.sender === 'featureDevChat') {
